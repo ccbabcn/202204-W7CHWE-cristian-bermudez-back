@@ -6,6 +6,7 @@ Controllers para interactuar con la base de datos:
 
 - `userLogin`
 - `userRegister`
+- `loadUsers`
 - `relatedUsers`
 - `getFriends`
 - `getEnemies`
@@ -17,6 +18,7 @@ Controllers para interactuar con la base de datos:
 
 - (POST) /user/login
 - (POST) /user/register
+- (GET) /user/loadusers
 - (GET) /user/related/:id
 - (GET) /user/friends/:id
 - (GET) /user/enemies/:id
