@@ -1,11 +1,11 @@
 require("dotenv").config();
-const debug = require("debug")("kinds:server");
+const debug = require("debug")("socialnetwork:server");
 const chalk = require("chalk");
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const { notFoundError, generalError } = require("./middlewares/errors");
-const kindsRouter = require("./routers/kindsRouter");
+const usersRouter = require("./routers/usersRouter");
 
 const app = express();
 
@@ -24,7 +24,7 @@ const startServer = (port) =>
 app.use(morgan("dev"));
 app.use(helmet());
 
-app.use("/kinds", kindsRouter);
+app.use("/user", usersRouter);
 
 app.use(notFoundError);
 app.use(generalError);

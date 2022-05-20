@@ -1,23 +1,25 @@
-# Ejercicio API tipos de gatos
+# API Users
 
-En este ejercicio crearás una API para leer, crear, modificar y borrar de una base de tipos de gatos.
+API para leer, crear y modificar una base de usuarios.
 
-1. Crea una base de datos mongo con una colección llamada `kinds`.
-2. Vuelca en la colección el JSON que viene con el ejercicio.
-3. Crea una API REST con Node y Express.
-4. Haz que la API se conecte a tu base de datos Mongo.
-5. Crea cinco controllers que _hablen_ con la base de datos:
+Controllers para interactuar con la base de datos:
 
-- `listKinds`
-- `getKind`
-- `createKind`
-- `updateKind`
-- `deleteKind`
+- `userLogin`
+- `userRegister`
+- `relatedUsers`
+- `getFriends`
+- `getEnemies`
+- `addFriend`
+- `addEnemy`
+- `updateUser`
 
-4. Crea los siguientes endpoints, que llamarán a los métodos anteriores.
+## Endpoints que llamarán a los métodos anteriores.
 
-(GET) /kinds/list
-(GET) /kinds/kind/:id
-(POST) /kinds/new-kind
-(PUT) /kinds/kind/:id
-(DELETE) /kinds/kind/:id
+- (POST) /user/login
+- (POST) /user/register
+- (GET) /user/related/:id
+- (GET) /user/friends/:id
+- (GET) /user/enemies/:id
+- (PATCH) /user/addfriend/:id
+- (PATCH) /user/addenemy/:id
+- (PUT) /user/update/:id
