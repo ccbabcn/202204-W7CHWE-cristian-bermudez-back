@@ -9,7 +9,7 @@ const notFoundError = (req, res) => {
 const generalError = (err, req, res, next) => {
   debug(chalk.red(`Error: ${err.message}`));
   const errorCode = err.code ?? 500;
-  const errorMessage = err.code ? err.message : "General pete";
+  const errorMessage = err.code ? err.message : "Internal Server Error";
   res.status(errorCode).json({ message: errorMessage });
 };
 
