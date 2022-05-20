@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-const debug = require("debug")("kinds:server:middlewares:errors");
+const debug = require("debug")("socialnetwork:server:middlewares:errors");
 
 const notFoundError = (req, res) => {
   res.status(404).json({ error: true, message: "Endpoint not found" });
