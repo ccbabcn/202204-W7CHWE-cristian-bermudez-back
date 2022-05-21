@@ -29,4 +29,4 @@ app.use("/user", usersRouter);
 app.use(notFoundError);
 app.use(generalError);
 
-module.exports = startServer;
+module.exports = { app, startServer };

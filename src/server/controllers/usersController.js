@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const debug = require("debug")("socialnetwork:server:userController");
 const chalk = require("chalk");
 const User = require("../../database/models/User");

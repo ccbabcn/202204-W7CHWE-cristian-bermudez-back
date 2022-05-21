@@ -15,7 +15,7 @@ describe("given loadUsers function", () => {
       const expectedUsers = {
         users: [
           {
-            id: "6287dcfafc0614bd47bc9c4a",
+            _id: "6287dcfafc0614bd47bc9c4a",
             name: "Mario",
             username: "marioLG",
             password: "CA32A1E4F9CB46B6D99FC627F9EB4AC606BC3474",
