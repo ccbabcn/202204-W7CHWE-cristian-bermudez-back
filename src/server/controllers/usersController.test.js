@@ -53,7 +53,6 @@ describe("Given a userLogin function", () => {
       jest.spyOn(bcrypt, "compare").mockResolvedValue(false);
       const expectedToken = "mitoquencito";
       jest.spyOn(jwt, "sign").mockReturnValue(expectedToken);
-
       const req = {
         body: { username: "manolo", password: "notapasword123" },
       };
