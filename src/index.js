@@ -2,7 +2,7 @@ require("dotenv").config();
 const debug = require("debug")("socialnetwork:root");
 const chalk = require("chalk");
 const connectDB = require("./database");
-const startServer = require("./server");
+const { startServer } = require("./server");
 
 const port = process.env.SERVER_PORT || 3000;
 const mongoConnection = process.env.MONGODB_STRING;

@@ -6,12 +6,12 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   image: { type: String },
   friends: {
-    type: [{ type: Schema.Types.ObjectId, unique: true }],
+    type: [{ type: Schema.Types.ObjectId }],
     ref: "User",
     default: [],
   },
   enemies: {
-    type: [{ type: Schema.Types.ObjectId, unique: true }],
+    type: [{ type: Schema.Types.ObjectId }],
     ref: "User",
     default: [],
   },
