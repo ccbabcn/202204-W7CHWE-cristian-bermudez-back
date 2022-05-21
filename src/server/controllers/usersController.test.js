@@ -1,6 +1,74 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const User = require("../../database/models/User");
 const { mockUsers } = require("../mocks/mockUsers");
-const loadUsers = require("./usersController");
+const { loadUsers, userLogin } = require("./usersController");
+
+describe("Given a userLogin function", () => {
+  describe("When its invoked with a req with a existing username and password", () => {
+    test("Then it should call the response status method with 201 and the response json method with a token", async () => {
+      jest.spyOn(User, "findOne").mockResolvedValue(true);
+      jest.spyOn(bcrypt, "compare").mockResolvedValue(true);
+      const expectedToken = "mitoquencito";
+      jest.spyOn(jwt, "sign").mockReturnValue(expectedToken);
+
+      const req = {
+        body: { username: "manolo", password: "notapasword123" },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const expectedStatus = 201;
+
+      await userLogin(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
+    });
+  });
+
+  describe("When its invoked with a req with a wrong username", () => {
+    test("Then it should call next", async () => {
+      jest.spyOn(User, "findOne").mockResolvedValue(false);
+
+      const req = {
+        body: { username: "manolo", password: "notapasword123" },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const next = jest.fn();
+
+      await userLogin(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe("When its invoked with a req with a orrect user but a wrong password", () => {
+    test("Then it should call next", async () => {
+      jest.spyOn(User, "findOne").mockResolvedValue(true);
+      jest.spyOn(bcrypt, "compare").mockResolvedValue(false);
+      const expectedToken = "mitoquencito";
+      jest.spyOn(jwt, "sign").mockReturnValue(expectedToken);
+
+      const req = {
+        body: { username: "manolo", password: "notapasword123" },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const next = jest.fn();
+
+      await userLogin(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+});
 
 describe("given loadUsers function", () => {
   const res = {
