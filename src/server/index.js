@@ -2,6 +2,8 @@ require("dotenv").config();
 const debug = require("debug")("socialnetwork:server");
 const chalk = require("chalk");
 const express = require("express");
+const cors = require("cors");
+
 const helmet = require("helmet");
 const morgan = require("morgan");
 const { notFoundError, generalError } = require("./middlewares/errors");
@@ -21,7 +23,9 @@ const startServer = (port) =>
     });
   });
 
+app.use(cors());
 app.use(morgan("dev"));
+
 app.use(express.json());
 app.use(helmet());
 
