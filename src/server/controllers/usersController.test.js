@@ -19,7 +19,7 @@ describe("Given a userLogin function", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-      const expectedStatus = 201;
+      const expectedStatus = 200;
 
       await userLogin(req, res);
 
@@ -29,42 +29,52 @@ describe("Given a userLogin function", () => {
   });
 
   describe("When its invoked with a req with a wrong username", () => {
-    test("Then it should call next", async () => {
+    test("Then it should call the response status method with 401 and the response json method with a a msg 'Username or password are worng'", async () => {
       jest.spyOn(User, "findOne").mockResolvedValue(false);
+      const expectedMsg = "Username or password are worng";
+      const expectedStatus = 401;
 
       const req = {
         body: { username: "manolo", password: "notapasword123" },
       };
+
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
+
       const next = jest.fn();
 
       await userLogin(req, res, next);
 
-      expect(next).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith({ msg: expectedMsg });
     });
   });
 
   describe("When its invoked with a req with a orrect user but a wrong password", () => {
-    test("Then it should call next", async () => {
+    test("Then it should call the response status method with 401 and the response json method with a a msg 'Username or password are worng'", async () => {
       jest.spyOn(User, "findOne").mockResolvedValue(true);
       jest.spyOn(bcrypt, "compare").mockResolvedValue(false);
-      const expectedToken = "mitoquencito";
-      jest.spyOn(jwt, "sign").mockReturnValue(expectedToken);
+
+      const expectedMsg = "Username or password are worng";
+      const expectedStatus = 401;
+
       const req = {
         body: { username: "manolo", password: "notapasword123" },
       };
+
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
+
       const next = jest.fn();
 
       await userLogin(req, res, next);
 
-      expect(next).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith({ msg: expectedMsg });
     });
   });
 });
