@@ -1,8 +1,53 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../database/models/User");
+
 const { mockUsers } = require("../mocks/mockUsers");
-const { loadUsers, userLogin } = require("./usersController");
+const { loadUsers, userLogin, userRegister } = require("./usersController");
+
+describe("Given a userRegister function", () => {
+  describe("When it's invoke with a request that contains a new user but file rename fails", () => {
+    test("Then it should call next ", async () => {
+      jest.spyOn(User, "findOne").mockResolvedValue(true);
+      jest.spyOn(bcrypt, "hash").mockResolvedValue("notpasswordbutEncrypted");
+      const req = {
+        body: {
+          name: "manolo",
+          username: "manolo",
+          password: "notapasword",
+        },
+      };
+
+      const next = jest.fn();
+
+      await userRegister(req, null, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+  });
+  describe("When it's invoke with a request that contains an existing user", () => {
+    test("Then it should call next with a new created error", async () => {
+      jest.spyOn(User, "findOne").mockResolvedValue(true);
+      const req = {
+        body: {
+          name: "manolo",
+          username: "manolo",
+          password: "notapasword",
+        },
+      };
+
+      const newError = new Error();
+      newError.code = 409;
+      newError.message = "User already exists";
+
+      const next = jest.fn();
+
+      await userRegister(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(newError);
+    });
+  });
+});
 
 describe("Given a userLogin function", () => {
   describe("When its invoked with a req with a existing username and password", () => {
